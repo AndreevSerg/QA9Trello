@@ -9,7 +9,7 @@ public class TestBase {
     WebDriver driver;
 
     @BeforeMethod
-    public void initTests() throws InterruptedException {
+    public void startUp() throws InterruptedException {
         driver = new ChromeDriver();
         driver.get("https://trello.com/");
         Thread.sleep(5000);
