@@ -1,22 +1,30 @@
 package Tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LoginTests extends TestBase {
-    String password1 = "CFDSGvcds!v43_4";
 
+public class LoginTests extends TestBase {
+    @BeforeMethod
+    public void initTests() {
+        //Thread.sleep(5000);
+        waitUntilElementIsClickable(By.cssSelector(".text-primary"), 40);
+        //click 'Log in' button
+        System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
+        driver.findElement(By.cssSelector(".text-primary")).click();
+        //Thread.sleep(3000);
+        waitUntilElementIsClickable(By.id("login"), 10);
+
+    }
 
     @Test
-    public void negativeLogin() throws InterruptedException {
+    public void negativeLogin() {
 
-        driver.findElement(By.cssSelector(".text-primary")).click();
-        Thread.sleep(3000);
+
+
         //fill in email field
         WebElement emailField = driver.findElement(By.id("user"));
         emailField.click();
@@ -24,11 +32,19 @@ public class LoginTests extends TestBase {
         //fill in password field
         WebElement passwordField = driver.findElement(By.id("password"));
         passwordField.click();
-        passwordField.sendKeys("password");
+        passwordField.sendKeys(PASSWORD);
         //press log in button
         driver.findElement(By.id("login")).click();
-        Thread.sleep(3000);
-        System.out.println("Error message: " + driver.findElements(By.cssSelector("p.error-message")).get(0).getText());
+        //Thread.sleep(3000);
+        waitUntilElementIsVisible(By.cssSelector("p.error-message"), 10);
+        //Output error message
+        /*System.out.println("Error message: " + driver
+                .findElements(By.cssSelector("p.error-message")).get(0).getText());
+            Устарело
+            */
+        Assert.assertEquals(driver
+                .findElements(By.cssSelector("p.error-message")).get(0).getText(),
+                "Аккаунта с таким именем пользователя не существует", "The error message is not correct");
 
     }
 
@@ -40,7 +56,7 @@ public class LoginTests extends TestBase {
 
         WebElement emailLogin = driver.findElement(By.xpath("//input[@id='user']"));
         emailLogin.click();
-        emailLogin.sendKeys("andreev.s@gmail.com");
+        emailLogin.sendKeys(LOGIN);
         Thread.sleep(3000);
 
         driver.findElement(By.cssSelector("#login")).click();
@@ -48,34 +64,39 @@ public class LoginTests extends TestBase {
 
         WebElement password = driver.findElement(By.cssSelector("#password"));
         password.click();
-        password.sendKeys(password1);
+        password.sendKeys(PASSWORD);
         password.submit();
         //   driver.findElement(By.cssSelector("#login-submit")).click();
         Thread.sleep(5000);
 
-        System.out.println("Name of the element is: " + driver.findElements(By.cssSelector("[class=\"_3Ow-m_R7rIILjd\"]")).get(0).getText());
+      /*  System.out.println("Name of the element is: " + driver
+                .findElements(By.xpath("(//button[@data-test-id='header-boards-menu-button']/span)[2]")).get(0).getText());
+        Устарело
+        */
+
+        Assert.assertEquals(driver
+                .findElements(By.xpath("(//button[@data-test-id='header-boards-menu-button']/span)[2]")).get(0).getText(), "Boards"
+        , "Name of button is not 'Boards'");
         Thread.sleep(3000);
     }
 
     @Test
     public void positiveLogin() throws InterruptedException {
-        driver.findElement(By.cssSelector(".text-primary")).click();
-        Thread.sleep(3000);
-
+        // fill in email field
         WebElement emailField = driver.findElement(By.id("user"));
         emailField.click();
-        emailField.sendKeys("andreev.s@gmail.com");
+        emailField.sendKeys(LOGIN);
         Thread.sleep(2000);
-
+        // press 'Log in with Atlassian' button
         driver.findElement(By.id("login")).click();
         Thread.sleep(3000);
 
         WebElement password = driver.findElement(By.cssSelector("#password"));
         password.click();
-        password.sendKeys(password1);
+        password.sendKeys(PASSWORD);
         password.submit();
         //  driver.findElement(By.id("login-submit")).click();
-        Thread.sleep(5000);
+        Thread.sleep(15000);
 
         //   System.out.println("Name of the element is: "
         //          + driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/.")).getText());
@@ -90,7 +111,7 @@ public class LoginTests extends TestBase {
 
         WebElement emailField = driver.findElement(By.id("user"));
         emailField.click();
-        emailField.sendKeys("andreev.s@gmail.com");
+        emailField.sendKeys(LOGIN);
         Thread.sleep(2000);
 
         driver.findElement(By.id("login")).click();
@@ -98,7 +119,7 @@ public class LoginTests extends TestBase {
 
         WebElement password = driver.findElement(By.cssSelector("#password"));
         password.click();
-        password.sendKeys(password1);
+        password.sendKeys(PASSWORD);
         password.submit();
         Thread.sleep(20000);
         //  go to the 'Boards' tab
@@ -113,7 +134,7 @@ public class LoginTests extends TestBase {
         // enter name of the list
         WebElement nameListField = driver.findElement(By.cssSelector("input[name='name']"));
         nameListField.click();
-        nameListField.sendKeys("Test List");
+        nameListField.sendKeys("New test List");
         // click 'Add list' button
         WebElement saveListButton = driver.findElement(By.cssSelector(".js-save-edit"));
         saveListButton.click();
@@ -123,5 +144,6 @@ public class LoginTests extends TestBase {
         cancelListCreatingButton.click();
         Thread.sleep(2000);
     }
+
 }
 

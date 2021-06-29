@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 public class CreateNewListTest extends TestBase{
 
-    String password1 = "CFDSGvcds!v43_4";
 
     @Test
     public void newListCreationTest() throws InterruptedException {
@@ -16,14 +15,14 @@ public class CreateNewListTest extends TestBase{
 
         WebElement emailField = driver.findElement(By.id("user"));
         emailField.click();
-        emailField.sendKeys("andreev.s@gmail.com");
+        emailField.sendKeys(LOGIN);
 
         driver.findElement(By.id("login")).click();
         Thread.sleep(2000);
 
         WebElement password = driver.findElement(By.cssSelector("#password"));
         password.click();
-        password.sendKeys(password1);
+        password.sendKeys(PASSWORD);
         password.submit();
         Thread.sleep(20000);
        // Thread.sleep(20000);

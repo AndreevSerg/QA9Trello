@@ -9,23 +9,23 @@ import java.util.List;
 
 public class CurrentBoardTests extends TestBase{
 
-    String password1 = "CFDSGvcds!v43_4";
-
     @BeforeMethod
     public void initTests() throws InterruptedException {
+        Thread.sleep(5000);
+        // click on 'Log in' button
         driver.findElement(By.cssSelector(".text-primary")).click();
         Thread.sleep(3000);
-
+        // fill in email field
         WebElement emailField = driver.findElement(By.id("user"));
 
-        editField(emailField, "andreev.s@gmail.com");
-
+        editField(emailField, LOGIN);
+        // press 'Log in with Atlassian' button
         driver.findElement(By.id("login")).click();
         Thread.sleep(2000);
 
         WebElement password = driver.findElement(By.cssSelector("#password"));
 
-        editField(password, password1);
+        editField(password, PASSWORD);
 
         password.submit();
         Thread.sleep(20000);
@@ -84,11 +84,10 @@ public class CurrentBoardTests extends TestBase{
             newListNameInput.submit();
             Thread.sleep(5000);
 
-            firstListDeleting();
         }
-        else{
+
             firstListDeleting();
-        }
+
         Thread.sleep(3000);
 
 
@@ -117,12 +116,9 @@ public class CurrentBoardTests extends TestBase{
             newListNameInput.submit();
             Thread.sleep(5000);
 
-            copyFirstList();
         }
-        else{
             copyFirstList();
-        }
-        Thread.sleep(3000);
+            Thread.sleep(3000);
 
     }
 
@@ -134,12 +130,6 @@ public class CurrentBoardTests extends TestBase{
         copyList.click();
         driver.findElement(By.cssSelector(".js-submit")).click();
         Thread.sleep(3000);
-    }
-
-
-    private void editField(WebElement field, String value) {
-        field.click();
-        field.sendKeys(value);
     }
 
 }
