@@ -22,17 +22,12 @@ public class LoginTests extends TestBase {
 
     @Test
     public void negativeLogin() {
-
-
-
         //fill in email field
         WebElement emailField = driver.findElement(By.id("user"));
-        emailField.click();
-        emailField.sendKeys("email");
+        editField(emailField,"email");
         //fill in password field
         WebElement passwordField = driver.findElement(By.id("password"));
-        passwordField.click();
-        passwordField.sendKeys(PASSWORD);
+       editField(passwordField, PASSWORD);
         //press log in button
         driver.findElement(By.id("login")).click();
         //Thread.sleep(3000);
@@ -48,7 +43,7 @@ public class LoginTests extends TestBase {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginTest() throws InterruptedException {
 
         driver.findElement(By.cssSelector("[class = 'btn btn-sm btn-link text-primary']")).click();
@@ -84,27 +79,29 @@ public class LoginTests extends TestBase {
     public void positiveLogin() throws InterruptedException {
         // fill in email field
         WebElement emailField = driver.findElement(By.id("user"));
-        emailField.click();
-        emailField.sendKeys(LOGIN);
-        Thread.sleep(2000);
-        // press 'Log in with Atlassian' button
-        driver.findElement(By.id("login")).click();
-        Thread.sleep(3000);
+        editField(emailField, LOGIN);
+        waitUntilElementIsClickable(By.xpath("//input[@value = 'Войти с помощью Atlassian']"), 5);
+        WebElement loginAsAttl = driver.findElement(By.xpath("//input[@value = 'Войти с помощью Atlassian']"));
 
-        WebElement password = driver.findElement(By.cssSelector("#password"));
-        password.click();
-        password.sendKeys(PASSWORD);
-        password.submit();
+        // press 'Log in with Atlassian' button
+        loginAsAttl.click();
+
+        waitUntilElementIsClickable(By.cssSelector("#password"), 5);
+        WebElement passwordField = driver.findElement(By.cssSelector("#password"));
+        editField(passwordField, PASSWORD);
         //  driver.findElement(By.id("login-submit")).click();
-        Thread.sleep(15000);
+        waitUntilElementIsClickable(By.id("login-submit"), 5);
+        driver.findElement(By.id("login-submit")).click();
+        waitUntilElementIsClickable(By.xpath("//button[@data-test-id='header-boards-menu-button']/."),30);
 
         //   System.out.println("Name of the element is: "
         //          + driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/.")).getText());
-        Thread.sleep(3000);
+        Assert.assertEquals(driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/.")).getText(), "Boards",
+                "Name of the button is not 'Boards'");
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void newListCreatingTest() throws InterruptedException {
         driver.findElement(By.cssSelector(".text-primary")).click();
         Thread.sleep(3000);
