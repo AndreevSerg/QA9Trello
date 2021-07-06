@@ -5,16 +5,30 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.BoardsPageHelper;
+import pages.HomePageHelper;
+import pages.LoginPageHelper;
 
 
 public class LoginTests extends TestBase {
+    HomePageHelper homePage;
+    LoginPageHelper loginPage;
+    BoardsPageHelper boardsPage;
+
+
     @BeforeMethod
     public void initTests() {
-        //Thread.sleep(5000);
-        waitUntilElementIsClickable(By.cssSelector(".text-primary"), 40);
-        //click 'Log in' button
-        System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
-        driver.findElement(By.cssSelector(".text-primary")).click();
+        homePage = new HomePageHelper(driver);
+        loginPage = new LoginPageHelper(driver);
+        boardsPage = new BoardsPageHelper(driver);
+
+        homePage.waitUntilPageIsLoaded();
+        loginPage.openPage();
+        loginPage.waitUntilPageIsLoaded();
+
+
+
+
         //Thread.sleep(3000);
         waitUntilElementIsClickable(By.id("login"), 10);
 
@@ -22,24 +36,12 @@ public class LoginTests extends TestBase {
 
     @Test
     public void negativeLogin() {
-        //fill in email field
-        WebElement emailField = driver.findElement(By.id("user"));
-        editField(emailField,"email");
-        //fill in password field
-        WebElement passwordField = driver.findElement(By.id("password"));
-       editField(passwordField, PASSWORD);
-        //press log in button
-        driver.findElement(By.id("login")).click();
-        //Thread.sleep(3000);
-        waitUntilElementIsVisible(By.cssSelector("p.error-message"), 10);
-        //Output error message
-        /*System.out.println("Error message: " + driver
-                .findElements(By.cssSelector("p.error-message")).get(0).getText());
-            Устарело
-            */
-        Assert.assertEquals(driver
-                .findElements(By.cssSelector("p.error-message")).get(0).getText(),
-                "Аккаунта с таким именем пользователя не существует", "The error message is not correct");
+       //loginPage.fillInEmailField("email");
+       //loginPage.fillInPasswordField("nlkikjl");
+       //loginPage.submitLoginNoAttl();
+       loginPage.loginNotAttl("email", "password");
+        Assert.assertEquals(loginPage.getErrorMessage(),
+                "There isn't an account for this username", "The error message is not correct");
 
     }
 
@@ -77,26 +79,11 @@ public class LoginTests extends TestBase {
 
     @Test
     public void positiveLogin() throws InterruptedException {
-        // fill in email field
-        WebElement emailField = driver.findElement(By.id("user"));
-        editField(emailField, LOGIN);
-        waitUntilElementIsClickable(By.xpath("//input[@value = 'Войти с помощью Atlassian']"), 5);
-        WebElement loginAsAttl = driver.findElement(By.xpath("//input[@value = 'Войти с помощью Atlassian']"));
-
-        // press 'Log in with Atlassian' button
-        loginAsAttl.click();
-
-        waitUntilElementIsClickable(By.cssSelector("#password"), 5);
-        WebElement passwordField = driver.findElement(By.cssSelector("#password"));
-        editField(passwordField, PASSWORD);
-        //  driver.findElement(By.id("login-submit")).click();
-        waitUntilElementIsClickable(By.id("login-submit"), 5);
-        driver.findElement(By.id("login-submit")).click();
-        waitUntilElementIsClickable(By.xpath("//button[@data-test-id='header-boards-menu-button']/."),30);
-
+        loginPage.loginAsAttl(LOGIN, PASSWORD);
+        boardsPage.waitUntilPageIsLoaded();
         //   System.out.println("Name of the element is: "
         //          + driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/.")).getText());
-        Assert.assertEquals(driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/.")).getText(), "Boards",
+        Assert.assertEquals(boardsPage.getBoardsButtonName(), "Boards",
                 "Name of the button is not 'Boards'");
 
     }
