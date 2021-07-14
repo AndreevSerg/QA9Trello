@@ -15,11 +15,11 @@ public class LoginPageHelper extends PageBase{
         //Thread.sleep(5000);
         waitUntilElementIsClickable(By.cssSelector(".text-primary"), 40);
         //click 'Log in' button
-        System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
+        //System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
         driver.findElement(By.cssSelector(".text-primary")).click();
     }
-    public void waitUntilPageIsLoaded() {
-        waitUntilElementIsClickable(By.cssSelector(".text-primary"), 10);
+    public void waitUntilPageIsLoaded(){
+        waitUntilElementIsClickable(By.id("login"),10);
     }
 
     public void loginNotAttl(String login, String password){

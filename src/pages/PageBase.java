@@ -53,4 +53,12 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+
+    public void waitUntilElementsBecome(By locator, int quantity, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.numberOfElementsToBe(locator,quantity));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

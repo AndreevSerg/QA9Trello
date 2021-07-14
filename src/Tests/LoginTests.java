@@ -26,9 +26,6 @@ public class LoginTests extends TestBase {
         loginPage.openPage();
         loginPage.waitUntilPageIsLoaded();
 
-
-
-
         //Thread.sleep(3000);
         waitUntilElementIsClickable(By.id("login"), 10);
 
@@ -78,7 +75,7 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    public void positiveLogin() throws InterruptedException {
+    public void positiveLogin() {
         loginPage.loginAsAttl(LOGIN, PASSWORD);
         boardsPage.waitUntilPageIsLoaded();
         //   System.out.println("Name of the element is: "
@@ -87,6 +84,8 @@ public class LoginTests extends TestBase {
                 "Name of the button is not 'Boards'");
 
     }
+
+
 
     @Test(enabled = false)
     public void newListCreatingTest() throws InterruptedException {

@@ -2,8 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePageHelper  extends PageBase{
     WebDriver driver;
@@ -13,7 +11,7 @@ public class HomePageHelper  extends PageBase{
     }
 
     public void waitUntilPageIsLoaded() {
-        waitUntilElementIsClickable(By.cssSelector(".text-primary"), 40);
+        waitUntilElementIsClickable(By.cssSelector(".text-primary"),40);
     }
 
     public boolean isCorrectPage() {
