@@ -3,8 +3,24 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class LoginPageHelper extends PageBase{
+    @FindBy(css = ".text-primary")
+    WebElement logInIcon;
+
+    @FindBy(id = "login")
+    WebElement loginButton;
+    @FindBy(id = "user")
+    WebElement emailField;
+    @FindBy(id = "password")
+    WebElement passwordField;
+    @FindBy (css = "p.error-message")
+    WebElement errorMessage;
+    @FindBy(xpath = "//input[@value = 'Log in with Atlassian']")
+    WebElement loginAsAttlButton;
+    @FindBy(id = "login-submit")
+    WebElement submitAsAttlButton;
 
     public LoginPageHelper(WebDriver driver) {
         this.driver = driver;
@@ -13,13 +29,13 @@ public class LoginPageHelper extends PageBase{
     public void openPage(){
         //click 'Log in' button
         //Thread.sleep(5000);
-        waitUntilElementIsClickable(By.cssSelector(".text-primary"), 40);
+        waitUntilElementIsClickable(logInIcon, 40);
         //click 'Log in' button
         //System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
-        driver.findElement(By.cssSelector(".text-primary")).click();
+        logInIcon.click();
     }
     public void waitUntilPageIsLoaded(){
-        waitUntilElementIsClickable(By.id("login"),10);
+        waitUntilElementIsClickable(loginButton,10);
     }
 
     public void loginNotAttl(String login, String password){
@@ -29,30 +45,28 @@ public class LoginPageHelper extends PageBase{
     }
 
     public String getErrorMessage(){
-        waitUntilElementIsVisible(By.cssSelector("p.error-message"), 10);
+        waitUntilElementIsVisible(errorMessage, 10);
         //Output error message
         /*System.out.println("Error message: " + driver
                 .findElements(By.cssSelector("p.error-message")).get(0).getText());
             Устарело
             */
-       return  driver.findElements(By.cssSelector("p.error-message")).get(0).getText();
+       return errorMessage.getText();
     }
 
     public void fillInEmailField(String value) {
-        //fill in email field
-        WebElement emailField = driver.findElement(By.id("user"));
+        //fill in email field;
         editField(emailField,value);
     }
 
     public void fillInPasswordField(String value) {
         //fill in password field
-        WebElement passwordField = driver.findElement(By.id("password"));
         editField(passwordField, value);
     }
 
     public void submitLoginNoAttl() {
         //press log in button
-        driver.findElement(By.id("login")).click();
+        loginButton.click();
     }
 
     public void loginAsAttl(String login, String password){
@@ -63,22 +77,19 @@ public class LoginPageHelper extends PageBase{
     }
 
     public void pressLoginAttlButton() {
-        waitUntilElementIsClickable(By.xpath("//input[@value = 'Log in with Atlassian']"), 5);
-        WebElement loginAsAttl = driver.findElement(By.xpath("//input[@value = 'Log in with Atlassian']"));
-
+        waitUntilElementIsClickable(loginAsAttlButton, 5);
         // press 'Log in with Atlassian' button
-        loginAsAttl.click();
+        loginAsAttlButton.click();
     }
 
     public void fillInPasswordAttl(String volume) {
-        waitUntilElementIsClickable(By.cssSelector("#password"), 5);
-        WebElement passwordField = driver.findElement(By.cssSelector("#password"));
+        waitUntilElementIsClickable(passwordField, 5);
         editField(passwordField, volume);
     }
 
     public void submitLoginAttl() {
         //  driver.findElement(By.id("login-submit")).click();
-        waitUntilElementIsClickable(By.id("login-submit"), 5);
-        driver.findElement(By.id("login-submit")).click();
+        waitUntilElementIsClickable(submitAsAttlButton, 5);
+        submitAsAttlButton.click();
     }
 }

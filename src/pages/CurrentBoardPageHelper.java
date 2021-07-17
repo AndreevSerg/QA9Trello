@@ -3,11 +3,37 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
 public class CurrentBoardPageHelper extends PageBase{
     String boardName;
+
+    @FindBy (css = ".placeholder")
+    WebElement addListButton;
+    @FindBy (css = ".js-list-content")
+    List<WebElement> columnsList;
+    @FindBy (css = "input[name='name']")
+    WebElement nameListField;
+    @FindBy (css = ".js-save-edit")
+    WebElement saveListButton;
+    @FindBy (css = ".js-cancel-edit")
+    WebElement cancelListCreatingButton;
+    @FindBy (css = ".card-composer-container")
+    WebElement addCardButton;
+    @FindBy (css = ".js-card-title")
+    WebElement cardTitleField;
+    @FindBy (css = ".js-cancel")
+    WebElement cancelButton;
+    @FindBy (css = ".js-copy-list")
+    WebElement copyListButton;
+    @FindBy (css = ".js-autofocus")
+    WebElement newListName;
+    @FindBy (css = ".js-submit")
+    WebElement createListButton;
+    @FindBy(css = ".js-close-list")
+    WebElement deleteListButton;
 
     public CurrentBoardPageHelper(WebDriver driver, String boardName) {
         this.driver = driver;
@@ -26,38 +52,34 @@ public class CurrentBoardPageHelper extends PageBase{
     }
 
     public void waitUntilPageIsLoaded() {
-        waitUntilElementIsClickable(By.cssSelector(".placeholder"),10);
-        WebElement addButton = driver.findElement(By.cssSelector(".placeholder"));
+        waitUntilElementIsClickable(addListButton,10);
 
-        if (addButton.getText().equals("Add another list")) {
-            waitUntilAllElementsArePresent(By.cssSelector(".js-list-content"),5);
+        if (addListButton.getText().equals("Add another list")); {
+            //waitUntilAllElementsArePresent(By.cssSelector(".js-list-content"),5);
+            waitUntilAllElementsAreVisible(columnsList,10);
         }
     }
+
     public int getListsQuantity() {
-        List<WebElement> collumnsList = driver.findElements(By.cssSelector(".js-list-content"));
-        return collumnsList.size();
+        return columnsList.size();
     }
     public int getCardsQuantity() {
-        List<WebElement> collumnsList = driver.findElements(By.cssSelector(".list-card-title"));
-        return collumnsList.size();
+        return columnsList.size();
     }
 
     public void addNewList(String name) {
         int beginListsQuantity = this.getListsQuantity();
         // add new list by 'Add list button'
-        WebElement createListButton = driver.findElement(By.cssSelector(".placeholder"));
-        createListButton.click();
+        WebElement addListButton = driver.findElement(By.cssSelector(".placeholder"));
+        addListButton.click();
         // enter name of the list
-        WebElement nameListField = driver.findElement(By.cssSelector("input[name='name']"));
         editField(nameListField, name);
         // click 'Add list' button
-        WebElement saveListButton = driver.findElement(By.cssSelector(".js-save-edit"));
         saveListButton.click();
         // click 'x' button to cancel new list creating
         waitUntilElementsBecome(By.cssSelector(".js-list-content"),beginListsQuantity+1,10);
         System.out.println("After adding: " + this.getListsQuantity());
-        waitUntilElementIsClickable(By.cssSelector(".js-cancel-edit"),5);
-        WebElement cancelListCreatingButton = driver.findElement(By.cssSelector(".js-cancel-edit"));
+        waitUntilElementIsClickable(cancelListCreatingButton,5);
         cancelListCreatingButton.click();
         waitUntilElementIsClickable(By.cssSelector(".placeholder"),5);
     }
@@ -65,15 +87,13 @@ public class CurrentBoardPageHelper extends PageBase{
     public void addNewCardToFirstList(String name) {
         int beginCards = this.getCardsQuantity();
         // press 'Add a card' ('Add another card')
-        WebElement addCardButton = driver.findElement(By.cssSelector(".card-composer-container"));
         addCardButton.click();
         // fill in card title
-        WebElement cardTitleField = driver.findElement(By.cssSelector(".js-card-title"));
         editField(cardTitleField, "card title");
         driver.findElement(By.cssSelector(".js-add-card")).click();
         waitUntilElementsBecome(By.cssSelector(".list-card-title"),beginCards+1,10);
-        waitUntilElementIsClickable(By.cssSelector(".js-cancel"),5);
-        driver.findElement(By.cssSelector(".js-cancel")).click();
+        waitUntilElementIsClickable(cancelButton,5);
+        cancelButton.click();
     }
 
     public void archiveFirstList() {
@@ -88,16 +108,15 @@ public class CurrentBoardPageHelper extends PageBase{
         driver.findElement(By.cssSelector(".list-header-extras-menu")).click();
 
         // -- click on "Copy menu"
-        waitUntilElementIsClickable(By.cssSelector(".js-copy-list"),10);
-        driver.findElement(By.cssSelector(".js-copy-list")).click();
+        copyListButton.click();
 
-        waitUntilElementIsClickable(By.cssSelector(".js-autofocus"),5);
-        driver.findElement(By.cssSelector(".js-autofocus")).sendKeys(name);
+        waitUntilElementIsClickable(newListName,5);
+        newListName.sendKeys(name);
 
         waitUntilElementIsClickable(By.cssSelector(".js-submit"),10);
         //WebElement nameField  = driver.findElement(By.cssSelector(".js-autofocus"));
         //nameField.sendKeys("nameChanged");
-        driver.findElement(By.cssSelector(".js-submit")).click();
+        createListButton.click();
         waitUntilElementsBecome(By.cssSelector(".js-list-content"),beginLists+1,5);
     }
 
@@ -120,8 +139,8 @@ public class CurrentBoardPageHelper extends PageBase{
         driver.findElements(By.cssSelector(".list-header-extras-menu")).get(number).click();
 
         // -- click on "Archive menu"
-        waitUntilElementIsClickable(By.cssSelector(".js-close-list"),5);
-        driver.findElement(By.cssSelector(".js-close-list")).click();
+        waitUntilElementIsClickable(deleteListButton,5);
+        deleteListButton.click();
         waitUntilElementsBecome(By.cssSelector(".js-list-content"),beginLists-1,5);
     }
 

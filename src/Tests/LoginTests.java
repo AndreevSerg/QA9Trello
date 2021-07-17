@@ -2,6 +2,7 @@ package Tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,16 +19,13 @@ public class LoginTests extends TestBase {
 
     @BeforeMethod
     public void initTests() {
-        homePage = new HomePageHelper(driver);
-        loginPage = new LoginPageHelper(driver);
-        boardsPage = new BoardsPageHelper(driver);
+        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
+        boardsPage = PageFactory.initElements(driver, BoardsPageHelper.class);
 
         homePage.waitUntilPageIsLoaded();
         loginPage.openPage();
         loginPage.waitUntilPageIsLoaded();
-
-        //Thread.sleep(3000);
-        waitUntilElementIsClickable(By.id("login"), 10);
 
     }
 
