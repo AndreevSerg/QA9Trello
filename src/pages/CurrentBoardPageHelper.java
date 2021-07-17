@@ -54,7 +54,7 @@ public class CurrentBoardPageHelper extends PageBase{
     public void waitUntilPageIsLoaded() {
         waitUntilElementIsClickable(addListButton,10);
 
-        if (addListButton.getText().equals("Add another list")); {
+        if (addListButton.getText().equals("Add another list")) {
             //waitUntilAllElementsArePresent(By.cssSelector(".js-list-content"),5);
             waitUntilAllElementsAreVisible(columnsList,10);
         }
