@@ -18,7 +18,6 @@ public class PageBase {
             e.printStackTrace();
         }
     }
-
     public void waitUntilElementIsClickable(WebElement element, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(element));
@@ -26,11 +25,11 @@ public class PageBase {
             e.printStackTrace();
         }
     }
-
     public void editField(WebElement field, String value) {
         field.click();
         field.sendKeys(value);
     }
+
 
     public void waitUntilElementTextIs(By locator, String text, int time) {
         try {
@@ -39,14 +38,27 @@ public class PageBase {
             e.printStackTrace();
         }
     }
-    public void waitUntilAllElementsAreVisible(List<WebElement> locator, int time) {
+    public void waitUntilElementTextIs(WebElement element, String text, int time) {
         try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfAllElements(locator));
+            new WebDriverWait(driver, time).until(ExpectedConditions.textToBePresentInElement(element,text));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    public void waitUntilAllElementsArePresent(By locator, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void waitUntilAllElementsAreVisible(List<WebElement> listElements, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfAllElements(listElements));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void waitUntilElementIsVisible(By locator, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -58,14 +70,6 @@ public class PageBase {
     public void waitUntilElementIsVisible(WebElement element, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOf(element));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void waitUntilAllElementsArePresent(By locator, int time){
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,4 +90,7 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+
+
+
 }

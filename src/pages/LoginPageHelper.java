@@ -26,16 +26,18 @@ public class LoginPageHelper extends PageBase{
         this.driver = driver;
     }
 
-    public void openPage(){
+    public LoginPageHelper openPage(){
         //click 'Log in' button
         //Thread.sleep(5000);
         waitUntilElementIsClickable(logInIcon, 40);
         //click 'Log in' button
         //System.out.println("Log in button name: " + driver.findElement(By.cssSelector(".text-primary")));
         logInIcon.click();
+        return this;
     }
-    public void waitUntilPageIsLoaded(){
+    public LoginPageHelper waitUntilPageIsLoaded(){
         waitUntilElementIsClickable(loginButton,10);
+        return this;
     }
 
     public void loginNotAttl(String login, String password){
@@ -69,11 +71,12 @@ public class LoginPageHelper extends PageBase{
         loginButton.click();
     }
 
-    public void loginAsAttl(String login, String password){
+    public LoginPageHelper loginAsAttl(String login, String password){
        fillInEmailField(login);
        pressLoginAttlButton();
        fillInPasswordAttl(password);
        submitLoginAttl();
+       return this;
     }
 
     public void pressLoginAttlButton() {

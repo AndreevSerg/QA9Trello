@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,6 +15,10 @@ public class MenuPageHelper extends PageBase{
     WebElement profileMemberMenu;
     @FindBy (xpath = "//span[contains(text(),'Activity')]")
     List<WebElement> activityMenuList;
+
+    public MenuPageHelper(WebDriver driver){
+        this.driver = driver;
+    }
 
     public void openPage() {
         headerMemberMenu.click();

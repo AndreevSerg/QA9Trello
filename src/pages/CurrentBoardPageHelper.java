@@ -4,10 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class CurrentBoardPageHelper extends PageBase{
+public class CurrentBoardPageHelper extends PageBase {
     String boardName;
 
     @FindBy (css = ".placeholder")
@@ -22,6 +23,8 @@ public class CurrentBoardPageHelper extends PageBase{
     WebElement cancelListCreatingButton;
     @FindBy (css = ".card-composer-container")
     WebElement addCardButton;
+    @FindBy (css = ".js-add-card")
+    WebElement submitCardButton;
     @FindBy (css = ".js-card-title")
     WebElement cardTitleField;
     @FindBy (css = ".js-cancel")
@@ -34,43 +37,50 @@ public class CurrentBoardPageHelper extends PageBase{
     WebElement createListButton;
     @FindBy(css = ".js-close-list")
     WebElement deleteListButton;
+    @FindBy (css = ".list-header-extras-menu")
+    List<WebElement> columnsMenuList;
 
     public CurrentBoardPageHelper(WebDriver driver, String boardName) {
         this.driver = driver;
         this.boardName = boardName;
+        PageFactory.initElements(driver,this);
     }
 
-    public void openPage() {
+    public CurrentBoardPageHelper openPage() {
         waitUntilElementIsClickable(getLocatorBoardButton(),10);
         // open 'QA Haifa9' board
         WebElement qaHaifa9Board = driver.findElement(getLocatorBoardButton());
         qaHaifa9Board.click();
+        return this;
     }
 
     public By getLocatorBoardButton(){
         return By.xpath("//a[@class = 'board-tile'][.//div[@title='"+boardName+"']]");
     }
 
-    public void waitUntilPageIsLoaded() {
+    public CurrentBoardPageHelper waitUntilPageIsLoaded() {
         waitUntilElementIsClickable(addListButton,10);
 
         if (addListButton.getText().equals("Add another list")) {
             //waitUntilAllElementsArePresent(By.cssSelector(".js-list-content"),5);
             waitUntilAllElementsAreVisible(columnsList,10);
         }
+        return this;
     }
 
     public int getListsQuantity() {
+        //List<WebElement> collumnsList = driver.findElements(By.cssSelector(".js-list-content"));
         return columnsList.size();
     }
     public int getCardsQuantity() {
+        List<WebElement> columnsList = driver.findElements(By.cssSelector(".list-card-title"));
         return columnsList.size();
     }
 
     public void addNewList(String name) {
         int beginListsQuantity = this.getListsQuantity();
         // add new list by 'Add list button'
-        WebElement addListButton = driver.findElement(By.cssSelector(".placeholder"));
+        //WebElement addListButton = driver.findElement(By.cssSelector(".placeholder"));
         addListButton.click();
         // enter name of the list
         editField(nameListField, name);
@@ -90,9 +100,10 @@ public class CurrentBoardPageHelper extends PageBase{
         addCardButton.click();
         // fill in card title
         editField(cardTitleField, "card title");
-        driver.findElement(By.cssSelector(".js-add-card")).click();
+        submitCardButton.click();
         waitUntilElementsBecome(By.cssSelector(".list-card-title"),beginCards+1,10);
-        waitUntilElementIsClickable(cancelButton,5);
+        // --- cancel new list creation ---
+        waitUntilElementIsClickable(cancelListCreatingButton,5);
         cancelButton.click();
     }
 
@@ -135,8 +146,8 @@ public class CurrentBoardPageHelper extends PageBase{
     public void archiveList(int number) {
         int beginLists = this.getListsQuantity();
         // -- click on the header menu
-        waitUntilElementIsClickable(By.cssSelector(".list-header-extras-menu"),5);
-        driver.findElements(By.cssSelector(".list-header-extras-menu")).get(number).click();
+        waitUntilElementIsClickable(columnsMenuList.get(number),5);
+        columnsMenuList.get(number).click();
 
         // -- click on "Archive menu"
         waitUntilElementIsClickable(deleteListButton,5);

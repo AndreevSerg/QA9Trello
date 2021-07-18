@@ -12,14 +12,14 @@ import pages.LoginPageHelper;
 
 
 public class LoginTests extends TestBase {
-    HomePageHelper homePage;
+    //HomePageHelper homePage;
     LoginPageHelper loginPage;
     BoardsPageHelper boardsPage;
 
 
     @BeforeMethod
     public void initTests() {
-        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        //homePage = PageFactory.initElements(driver, HomePageHelper.class);
         loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
         boardsPage = PageFactory.initElements(driver, BoardsPageHelper.class);
 

@@ -8,24 +8,30 @@ import org.openqa.selenium.support.FindBy;
 public class BoardsPageHelper extends PageBase{
     @FindBy(xpath = "(//button[@data-test-id='header-boards-menu-button']/span)[2]")
     WebElement boardsIcon;
+    @FindBy(xpath = "//a[@data-test-id = 'home-team-boards-tab']")
+    WebElement boardsMenuLeft;
+    @FindBy(xpath = "//h3")
+    WebElement headerYourWorkspace;
 
     public BoardsPageHelper(WebDriver driver){
         this.driver = driver;
     }
 
-    public void waitUntilPageIsLoaded(){
+    public BoardsPageHelper waitUntilPageIsLoaded(){
         waitUntilElementIsClickable(boardsIcon,30);
+        return this;
     }
 
     public String getBoardsButtonName(){
         return boardsIcon.getText();
     }
 
-    public void openBoardsMenu() {
-        waitUntilElementIsClickable(By.xpath("//a[@data-test-id = 'home-team-boards-tab']"), 10);
-        driver.findElement(By.xpath("//a[@data-test-id = 'home-team-boards-tab']")).click();
+    public BoardsPageHelper openBoardsMenu() {
+        waitUntilElementIsClickable(boardsMenuLeft, 10);
+        boardsMenuLeft.click();
         //waitUntilElementIsVisible(By.xpath("//h3[contains(text(),'Your Workspace boards')]"),10);
-        waitUntilElementTextIs(By.xpath("//h3"), "Your Workspace boards", 10);
+        waitUntilElementTextIs(headerYourWorkspace, "Your Workspace boards", 10);
+        return this;
     }
 
 }

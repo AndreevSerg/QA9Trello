@@ -22,7 +22,7 @@ public class ActivityPageTests extends TestBase{
         menuPage = PageFactory.initElements(driver, MenuPageHelper.class);
         activityPage = PageFactory.initElements(driver, ActivityPageHelper.class);
 
-        //homePage.waitUntilPageIsLoaded();
+        homePage.waitUntilPageIsLoaded();
         loginPage.openPage();
         loginPage.waitUntilPageIsLoaded();
         loginPage.loginAsAttl(LOGIN, PASSWORD);
@@ -30,8 +30,8 @@ public class ActivityPageTests extends TestBase{
         boardsPage.openBoardsMenu();
         qaHaifa9Board.openPage();
         qaHaifa9Board.waitUntilPageIsLoaded();
-        menuPage.openPage();
-        menuPage.waitUntilPageIsLoaded();
+        //menuPage.openPage();
+        //menuPage.waitUntilPageIsLoaded();
     }
 
     @Test

@@ -7,14 +7,14 @@ import org.testng.annotations.Test;
 import pages.HomePageHelper;
 
 public class HomePageTests extends TestBase{
-    HomePageHelper homePage;
+    //HomePageHelper homePage;
 
 
         @BeforeMethod
         public void initTest(){
         //homePage = new HomePageHelper(driver);
-        homePage = PageFactory.initElements(driver,HomePageHelper.class);
-        homePage.waitUntilPageIsLoaded();
+        //homePage = PageFactory.initElements(driver,HomePageHelper.class);
+        //homePage.waitUntilPageIsLoaded();
     }
 
     @Test

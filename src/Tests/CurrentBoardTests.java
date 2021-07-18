@@ -10,7 +10,7 @@ import pages.HomePageHelper;
 import pages.LoginPageHelper;
 
 public class CurrentBoardTests extends TestBase{
-    HomePageHelper homePage;
+    //HomePageHelper homePage;
     LoginPageHelper loginPage;
     BoardsPageHelper boardsPage;
     CurrentBoardPageHelper qaHaifa9Board;
@@ -18,19 +18,19 @@ public class CurrentBoardTests extends TestBase{
     @BeforeMethod
     public void initTests(){
 
-        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        //homePage = PageFactory.initElements(driver, HomePageHelper.class);
         loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
         boardsPage = PageFactory.initElements(driver,  BoardsPageHelper.class);
         qaHaifa9Board = new CurrentBoardPageHelper(driver, "QA Haifa9") ;
 
         homePage.waitUntilPageIsLoaded();
-        loginPage.openPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.loginAsAttl(LOGIN,PASSWORD);
-        boardsPage.waitUntilPageIsLoaded();
-        boardsPage.openBoardsMenu();
-        qaHaifa9Board.openPage();
-        qaHaifa9Board.waitUntilPageIsLoaded();
+        loginPage.openPage()
+               .waitUntilPageIsLoaded()
+                .loginAsAttl(LOGIN,PASSWORD);
+        boardsPage.waitUntilPageIsLoaded()
+                .openBoardsMenu();
+        qaHaifa9Board.openPage()
+                .waitUntilPageIsLoaded();
     }
 
     @Test
